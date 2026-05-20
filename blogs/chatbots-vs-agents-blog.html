@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbots vs. AI Agents: Stop Conflating Them | Tech Career Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0e;
+    --bg2: #131316;
+    --bg3: #1b1b20;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e6e0;
+    --heading: #f0ede6;
+    --text-body: #c8c5be;
+    --text-sub: #a8a5a0;
+    --text-dim: #55524e;
+    --muted: #888580;
+    --accent: #c9f566;
+    --accent2: #5ce6c8;
+    --accent3: #f5a623;
+    --red: #ff6b6b;
+    --bot-color: #f5a623;
+    --agent-color: #5ce6c8;
+    --nav-bg: rgba(12,12,14,0.88);
+    --code-bg: #0a0a0d;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Syne', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  [data-theme="light"] {
+    --bg: #fafaf7;
+    --bg2: #f1ede6;
+    --bg3: #e7e2d8;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.20);
+    --text: #15140f;
+    --heading: #0a0a08;
+    --text-body: #2a2823;
+    --text-sub: #4a4640;
+    --text-dim: #7a756c;
+    --muted: #524d45;
+    --accent: #3d6608;
+    --accent2: #0a5f4d;
+    --accent3: #7a4400;
+    --bot-color: #7a4400;
+    --agent-color: #0a5f4d;
+    --nav-bg: rgba(250,250,247,0.94);
+    --code-bg: #1a1a1e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 clamp(1rem, 5vw, 4rem);
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+  .nav-tag {
+    font-family: var(--mono); font-size: 11px;
+    background: rgba(201,245,102,0.1); color: var(--accent);
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    outline: none; padding: 0;
+  }
+  .theme-toggle:hover { background: var(--bg2); border-color: var(--muted); }
+  .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
+  .theme-toggle:hover svg { stroke: var(--text); }
+  .icon-moon { fill: var(--muted) !important; stroke: none !important; }
+  .theme-toggle:hover .icon-moon { fill: var(--text) !important; }
+  .icon-sun  { display: none; }
+  .icon-moon { display: block; }
+  [data-theme="light"] .icon-moon { display: none; }
+  [data-theme="light"] .icon-sun  { display: block; }
+
+  .hero {
+    max-width: 820px; margin: 0 auto;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 2rem) clamp(2rem, 5vw, 3.5rem);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent2); letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--accent2);
+  }
+  h1 {
+    font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.22; font-weight: 400; color: var(--heading);
+    margin-bottom: 1.5rem; padding-bottom: 0.15em;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .hero-sub {
+    font-size: 1.1rem; font-family: var(--body); color: var(--muted); line-height: 1.8;
+    max-width: 620px; margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    padding-top: 1.5rem; border-top: 1px solid var(--border);
+  }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+
+  .content { max-width: 820px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 2rem); }
+
+  h2 {
+    font-family: var(--serif); font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 400; color: var(--heading); line-height: 1.3;
+    margin: 3rem 0 1rem; padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+  h3 {
+    font-family: var(--sans); font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.03em; margin: 2rem 0 0.6rem;
+    color: var(--accent2);
+  }
+  p { margin-bottom: 1.1rem; color: var(--text-body); font-family: var(--body); }
+
+  /* The big visual comparison */
+  .compare-vis {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border2);
+    border-radius: 12px; overflow: hidden;
+    margin: 2.5rem 0;
+  }
+  .compare-card {
+    background: var(--bg2); padding: 1.75rem 1.75rem;
+    min-height: 280px;
+  }
+  .compare-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .compare-label::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .card-bot .compare-label { color: var(--bot-color); }
+  .card-bot .compare-label::before { background: var(--bot-color); }
+  .card-agent .compare-label { color: var(--agent-color); }
+  .card-agent .compare-label::before { background: var(--agent-color); }
+  .compare-title {
+    font-family: var(--serif); font-size: 1.7rem; color: var(--heading);
+    margin-bottom: 0.4rem; line-height: 1.3; padding-bottom: 0.1em;
+  }
+  .compare-tagline {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); margin-bottom: 1.25rem;
+    letter-spacing: 0.04em;
+  }
+  .compare-list { list-style: none; padding: 0; }
+  .compare-list li {
+    font-size: 13px; font-family: var(--body); color: var(--text-sub); padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+  }
+  .compare-list li:last-child { border-bottom: none; }
+  .compare-list li::before {
+    content: '\2014'; flex-shrink: 0; opacity: 0.5; font-family: var(--mono);
+  }
+  .card-bot   .compare-list li::before { color: var(--bot-color); }
+  .card-agent .compare-list li::before { color: var(--agent-color); }
+  @media (max-width: 580px) { .compare-vis { grid-template-columns: 1fr; } }
+
+  .pull-quote {
+    border-left: 2px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 1.5rem; margin: 2.5rem 0;
+  }
+  .pull-quote p {
+    font-family: var(--serif); font-size: 1.35rem;
+    color: var(--heading); line-height: 1.5; margin: 0; font-style: italic;
+  }
+
+  .callout {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 1.25rem 1.5rem; margin: 2rem 0;
+  }
+  .callout p { color: var(--text-body); font-family: var(--body); font-size: 0.95rem; line-height: 1.7; margin: 0 0 0.5rem; }
+  .callout p:last-child { margin: 0; }
+  .callout strong { color: var(--accent); }
+
+  /* Framework box: ARR test */
+  .framework {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 10px; margin: 2rem 0; overflow: hidden;
+  }
+  .framework-head {
+    background: var(--bg3); padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .framework-tag {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .framework-name {
+    font-family: var(--sans); font-size: 14px; font-weight: 700;
+    color: var(--heading);
+  }
+  .framework-body { padding: 1.25rem 1.5rem; }
+  .framework-row {
+    display: grid; grid-template-columns: 130px 1fr;
+    gap: 12px; padding: 10px 0;
+    border-top: 1px solid var(--border);
+    align-items: start;
+  }
+  .framework-row:first-of-type { border-top: none; }
+  .framework-letter {
+    font-family: var(--serif); font-size: 24px;
+    color: var(--accent); line-height: 1;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .framework-letter span {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .framework-desc {
+    font-size: 13px; font-family: var(--body); color: var(--text-sub); line-height: 1.6;
+  }
+  .framework-desc strong { color: var(--heading); }
+
+  /* Sources block */
+  .sources {
+    margin: 3rem 0 0; padding: 1.5rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .sources-title {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem;
+  }
+  .sources ol { padding-left: 1.25rem; }
+  .sources li {
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    line-height: 1.8; margin-bottom: 0.4rem;
+  }
+  .sources li b { color: var(--text-sub); font-weight: 500; }
+
+  .scenario {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .scenario-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .scenario-title {
+    font-family: var(--sans); font-size: 14px; font-weight: 700;
+    color: var(--heading); margin-bottom: 0.75rem;
+  }
+  .scenario-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 12px; padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    align-items: start;
+  }
+  .scenario-row:first-of-type { border-top: none; }
+  .scenario-key {
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; padding-top: 2px;
+  }
+  .scenario-key.bot   { color: var(--bot-color); }
+  .scenario-key.agent { color: var(--agent-color); }
+  .scenario-val { color: var(--text-sub); font-family: var(--body); line-height: 1.5; }
+
+  /* Marketing claim tags */
+  .claim-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px; margin: 1.5rem 0;
+  }
+  .claim-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.1rem;
+  }
+  .claim-tag {
+    font-family: var(--mono); font-size: 10px;
+    padding: 2px 8px; border-radius: 20px;
+    display: inline-block; margin-bottom: 6px;
+  }
+  .tag-bot   { background: rgba(245,166,35,0.12); color: var(--bot-color); }
+  .tag-agent { background: rgba(92,230,200,0.12); color: var(--agent-color); }
+  .claim-text { font-size: 13px; font-family: var(--body); color: var(--text-sub); line-height: 1.55; margin: 0; }
+
+  footer {
+    max-width: 820px; margin: 4rem auto 0;
+    padding: 2rem clamp(1.5rem, 5vw, 2rem);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-note { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--muted); padding: 3px 10px; border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">// tech-career-blog</span>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4.5"/>
+      <line x1="12" y1="2"    x2="12" y2="5"/>
+      <line x1="12" y1="19"   x2="12" y2="22"/>
+      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+      <line x1="2"  y1="12" x2="5"  y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+      <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+    </svg>
+  </button>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">Build vs. Buy Clarity</div>
+  <h1>AI Chatbots vs. <em>AI Agents.</em><br>Stop Conflating Them.</h1>
+  <p class="hero-sub">Everyone is calling their AI chatbot an "AI agent" now. It's almost never true. The difference isn't the model. It's what happens when the user stops typing.</p>
+  <div class="hero-meta">
+    <span>For engineers evaluating AI products</span>
+    <span class="dot"></span>
+    <span>6 min read</span>
+    <span class="dot"></span>
+    <span>April 2026</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <p>I built a real AI agent platform last month. Each user gets their own AI agent backed by a dedicated cloud server. You tell it what you want done. It writes code, runs commands, evaluates results, and comes back with an answer. Not a response. An answer.</p>
+
+  <p>I spent the first day confused about why this felt so different from every AI chatbot I'd ever built. Same models. Similar prompts. The conversation felt different. The capability felt different. The product felt different.</p>
+
+  <p>Then it clicked. The thing I'd built wasn't a better AI chatbot. It was a different category of software.</p>
+
+  <p>Here is the distinction the industry keeps getting wrong:</p>
+
+  <div class="compare-vis">
+    <div class="compare-card card-bot">
+      <div class="compare-label">Category 1</div>
+      <div class="compare-title">AI Chatbot</div>
+      <div class="compare-tagline">A UI pattern. A conversation.</div>
+      <ul class="compare-list">
+        <li>User types &mdash; bot responds &mdash; conversation ends</li>
+        <li>System goes idle when user stops typing</li>
+        <li>One turn of work per user message</li>
+        <li>Returns a response, in text</li>
+        <li>No autonomy outside the chat window</li>
+      </ul>
+    </div>
+    <div class="compare-card card-agent">
+      <div class="compare-label">Category 2</div>
+      <div class="compare-title">AI Agent</div>
+      <div class="compare-tagline">A runtime. A process.</div>
+      <ul class="compare-list">
+        <li>User states outcome &mdash; agent works until done</li>
+        <li>Continues working when user closes the tab</li>
+        <li>Calls tools, reads state, takes actions</li>
+        <li>Returns a result: a built thing, a completed task</li>
+        <li>Has autonomy bounded by permissions, not chat turns</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>That's the line. Not the technology underneath. <strong>The autonomy after the user stops typing.</strong></p>
+
+  <h2>So When Should You Actually Build One?</h2>
+
+  <p>The runtime distinction tells you what category a product belongs to. It doesn't tell you whether you need an agent for the thing you're trying to do. Most things still don't need one.</p>
+
+  <p>The cleanest filter I've seen for this question is a three-letter test from a piece by executive coach Sangeet Paul Choudary on the practical use of agents. He calls it <strong>ARR</strong>:</p>
+
+  <div class="framework">
+    <div class="framework-head">
+      <span class="framework-tag">Framework</span>
+      <span class="framework-name">The ARR Test: When an Agent Makes Sense</span>
+    </div>
+    <div class="framework-body">
+      <div class="framework-row">
+        <div class="framework-letter">A <span>Autonomous</span></div>
+        <div class="framework-desc">Can the work happen <strong>without your input</strong> during execution? If every step needs human approval, an agent is overkill. You want a workflow with checkpoints, not autonomous action.</div>
+      </div>
+      <div class="framework-row">
+        <div class="framework-letter">R <span>Recurring</span></div>
+        <div class="framework-desc">Does this task happen <strong>more than once</strong>? One-off tasks rarely justify the setup cost. Weekly reports, daily triage, every-deploy validation. These compound. Agents earn their keep on repetition.</div>
+      </div>
+      <div class="framework-row">
+        <div class="framework-letter">R <span>Reviewable</span></div>
+        <div class="framework-desc">Can you tell <strong>after the fact</strong> whether the agent did a good job? If you can't define what "done correctly" looks like, you can't trust an autonomous system to produce it. Reviewability is the safety rail.</div>
+      </div>
+    </div>
+  </div>
+
+  <p>If your task is all three (autonomous, recurring, reviewable), it's a strong candidate for an agent. If it needs live judgment, only happens once, or can't be clearly evaluated, you want a better prompt or a workflow, not an agent.</p>
+
+  <p>This is the filter that prevents the most common failure mode of 2026: building agents for things that should have been a Slack reminder.</p>
+
+  <h2>The Same Model, Two Different Categories</h2>
+
+  <p>Claude Opus 4.7 powering a chatbot is still a chatbot. GPT-5 wrapped around a support ticketing tool is still a chatbot. The model doesn't determine the category. The runtime does.</p>
+
+  <p>Customer support bots, the chat tab in your SaaS dashboard, "AI assistants" that answer questions inside documentation sites, ChatGPT in a browser tab: all AI chatbots. Useful. Sophisticated. Valuable. But the work stops when you stop typing.</p>
+
+  <p>Compare what an actual agent looks like in practice:</p>
+
+  <div class="scenario">
+    <div class="scenario-label">Same prompt, two different products</div>
+    <div class="scenario-title">User: "Find why my last deploy failed and fix it"</div>
+
+    <div class="scenario-row">
+      <div class="scenario-key bot">AI Chatbot</div>
+      <div class="scenario-val">"Based on common deployment failures, you should check your CI logs for errors, verify environment variables, and ensure your build artifacts are correct. Would you like me to walk you through these steps?"</div>
+    </div>
+
+    <div class="scenario-row">
+      <div class="scenario-key agent">AI Agent</div>
+      <div class="scenario-val">[Reads CI logs for the failed deploy. Identifies the failing test. Pulls the relevant code file. Runs the test locally. Identifies the type mismatch. Edits the fix. Re-runs the test. Commits the fix on a new branch. Opens a PR with a summary of the change.] "Done. The deploy failed because of a type mismatch in the user serializer. Fixed it on branch fix/user-serializer-types and opened PR #847 for you to review."</div>
+    </div>
+  </div>
+
+  <p>Notice what's missing in the second one. No follow-up questions. No "would you like me to." No menu of options. The agent had a clear outcome to deliver, the tools to deliver it, and the autonomy to use them.</p>
+
+  <div class="pull-quote">
+    <p>"An AI chatbot answers your question. An AI agent achieves your outcome. That's not a feature upgrade. It's a different category of software."</p>
+  </div>
+
+  <h2>Why The Marketing Got So Confused</h2>
+
+  <p>Look at how products positioned themselves in 2023&ndash;2024. Then look at how the same products position themselves now.</p>
+
+  <div class="claim-grid">
+    <div class="claim-card">
+      <span class="claim-tag tag-bot">2023 marketing</span>
+      <p class="claim-text">"Our AI chatbot helps customers find answers instantly."</p>
+    </div>
+    <div class="claim-card">
+      <span class="claim-tag tag-agent">2025 marketing</span>
+      <p class="claim-text">"Our AI agent autonomously resolves customer queries."</p>
+    </div>
+  </div>
+
+  <p>Same product. Different label. The underlying software didn't change. It just got renamed because "agent" sounds more powerful than "chatbot." Investors fund agents. Engineers want to build agents. Customers want to buy agents. So everything became an agent.</p>
+
+  <p>The problem with this isn't pedantic. It's that when you're evaluating tools for your team or your stack, you need to know what you're actually getting. A "customer support agent" that requires a human to approve every action, ask every follow-up question, and chase every loose end isn't an agent. It's an AI chatbot with a marketing budget.</p>
+
+  <h2>Two Tests, Five Seconds Each</h2>
+
+  <p>When someone tells you their product is an agent, you don't need to read the docs. You don't need to test the API. Two questions narrow the field.</p>
+
+  <div class="callout">
+    <p><strong>Test 1: The autonomy test.</strong></p>
+    <p>"Can it complete a task while I'm not watching?"</p>
+    <p>If yes, it's an agent. If it has to ask you something before every meaningful action, or the work stops the moment you stop typing. It's an AI chatbot.</p>
+  </div>
+
+  <p>That filters out the products mislabeling themselves. But it doesn't tell you whether the remaining agents are actually good. Plenty of real agents are still rigid scripts wrapped in a chat interface. They work when everything goes right and break the moment reality changes. For that, you need a second test.</p>
+
+  <p>In the 1970s, Air Force Colonel John Boyd was trying to understand why American F-86 pilots in the Korean War kept beating the technically superior Soviet MiG-15. The MiG was faster and climbed higher. It should have won. It didn't.</p>
+
+  <p>Boyd's answer: the F-86 cockpit gave pilots better visibility and faster controls, which meant they could see, decide, and act faster than the enemy could respond. He called this loop <strong>OODA</strong>: Observe, Orient, Decide, Act. The pilot who completed the loop fastest won, even with worse equipment.</p>
+
+  <p>The OODA loop is also the right test for whether something is actually an agent rather than a fancy workflow:</p>
+
+  <div class="callout">
+    <p><strong>Test 2: The OODA test.</strong></p>
+    <p>"When the obvious path fails, can it choose a better one?"</p>
+    <p>A workflow follows the script. An agent observes that the script didn't work, orients to the new situation, decides on a different approach, and acts again. If a system can only follow the path you originally planned, it's automation. If it can find a new path when the first one breaks, it's an agent.</p>
+  </div>
+
+  <p>Concrete example: every Friday an automation checks grocery prices, builds a shopping list, and places an order. Works fine for months. Then one week your usual rice is out of stock and you have six friends coming for dinner on Saturday. A workflow either fails silently or orders what it can. An agent notices the missing item, finds a substitute, scales the quantities up for six people, checks your calendar, sees the dinner, and rebuilds the order around the actual situation.</p>
+
+  <p>That second behavior is what the autonomy test alone won't catch. Apply both tests in sequence: autonomy first, then OODA. That narrows the field to products doing genuinely different work.</p>
+
+  <h2>The Architecture Difference</h2>
+
+  <p>The difference is concrete and worth understanding. An AI chatbot is a request/response cycle. The architecture looks like:</p>
+
+  <p>Frontend sends a message. Backend calls the model. Model returns text. Backend returns text. Frontend renders. Done. The system holds no memory between your messages. Even when there's session history, the system isn't doing work. It's waiting.</p>
+
+  <p>An agent is a long-running process. The architecture looks more like:</p>
+
+  <p>Frontend sends an outcome. Backend starts a process. Process reasons about the goal, calls tools, evaluates results, calls more tools, corrects course, runs commands, reads files, writes files, makes decisions. The process is still running when the user closes their browser. The work continues. State persists. The system isn't waiting for the user. It's working for them.</p>
+
+  <p>The "calls tools" part is where the rubber meets the road. In 2026, most modern agents do this through <strong>Model Context Protocol</strong>, an open standard from Anthropic that lets models call into GitHub, file systems, databases, browsers, and any other service through a uniform interface. MCP is the reason agents can suddenly do real work without being hardcoded to specific APIs. If you're evaluating something that calls itself an agent and it doesn't use MCP or a similar tool-protocol, ask how it actually integrates with the systems it claims to operate. The answer matters.</p>
+
+  <p>That's why building an agent is harder than building an AI chatbot. You're not building a conversation. You're building a runtime. You need the system to remember what it's doing between steps, handle errors on its own, give you visibility into actions you didn't trigger manually, and stay secure while doing real work on real systems.</p>
+
+  <h2>What This Means For Engineers</h2>
+
+  <p>If you're choosing tools: when a product says "AI agent," apply both tests: autonomy first, then OODA. Most won't pass either. The ones that pass both are about to become important parts of how you build and ship software.</p>
+
+  <p>If you're building products: don't call your AI chatbot an agent. The bar is rising. Customers, technical evaluators, and increasingly investors are learning the difference. Mislabeling a chatbot as an agent worked in 2024. It's getting harder in 2026.</p>
+
+  <p>If you're a senior engineer thinking about where the work is going: the AI chatbot space is crowded and mature. The agent category is less crowded right now, but that window is closing fast. The companies that figure out how to build reliable, focused agents that businesses can trust with real workflows will shape the next several years of software.</p>
+
+  <h2>One More Thing</h2>
+
+  <p>The reason this distinction matters to me personally: I spent a week building AXON, a platform where every user gets a real AI agent backed by a dedicated cloud server. The agent writes code, runs it, edits files, and streams results back. No questions unless it genuinely needs them.</p>
+
+  <p>By day three I understood why this felt different from every AI chatbot I'd ever built. By day five I understood why most of what's being called an agent isn't one. By day seven I understood why this distinction is the one engineers should be paying attention to right now.</p>
+
+  <p>The model is not the product. The runtime is the product. And the runtime is where the most interesting software of the next few years is being built.</p>
+
+  <div class="sources">
+    <div class="sources-title">Sources &amp; further reading</div>
+    <ol>
+      <li><b>Sangeet Paul Choudary</b>: talk on AI agents, the ARR framework (Autonomous, Recurring, Reviewable), and the four-role agent anatomy (Analyst, Planner, Operator, Auditor). The student-driver vs hired-driver metaphor and the GPS check (Goal, Proof, Steps) are also from this source. <i>youtu.be/P5sKKnWCvzk</i></li>
+      <li><b>John Boyd</b>: origin of the OODA loop (Observe, Orient, Decide, Act), developed while studying air combat outcomes from the Korean War, later codified in his "Discourse on Winning and Losing" briefings (1976&ndash;1995). Widely covered in <i>Boyd: The Fighter Pilot Who Changed the Art of War</i> by Robert Coram.</li>
+      <li><b>Anthropic</b>: engineering blog posts on agentic systems, particularly the "Building effective agents" guidance on the augmented LLM pattern and tool-use loops; Model Context Protocol (MCP) documentation as the open standard for agent tool integration. <i>anthropic.com/engineering</i> &middot; <i>modelcontextprotocol.io</i></li>
+      <li><b>Personal project: AXON</b>: practical experience building an AI agent platform where each user gets a dedicated cloud server. The architectural distinction between request/response AI chatbots and long-running agent runtimes is informed directly by what this system required to work. <i>github.com/suryadeevi-dev/axon</i></li>
+      <li><b>Industry product positioning</b>: observed shift in marketing language across customer-support, SaaS, and developer-tool categories between 2023 and 2026, where "chatbot" was rebranded to "agent" without corresponding architectural change.</li>
+    </ol>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-note">&copy; 2026 &middot; Written for engineers, by engineers</span>
+  <div class="footer-tags">
+    <span class="tag">AI</span>
+    <span class="tag">AI-agents</span>
+    <span class="tag">platform</span>
+    <span class="tag">software-design</span>
+    <span class="tag">career</span>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    var html = document.documentElement;
+    var btn  = document.getElementById('themeToggle');
+    var KEY  = 'blog-theme';
+    var saved = localStorage.getItem(KEY);
+    if (saved === 'light') html.setAttribute('data-theme', 'light');
+    btn.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem(KEY, 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem(KEY, 'light');
+      }
+    });
+    if (!saved) {
+      var preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (preferLight) html.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+</body>
+</html>

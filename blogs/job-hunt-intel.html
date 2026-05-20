@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your AI Job Search System in 2026 | Two Modes, One Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* dark mode (default) */
+    --bg: #0c0c0e;
+    --bg2: #131316;
+    --bg3: #1b1b20;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e6e0;
+    --heading: #f0ede6;
+    --text-body: #c8c5be;
+    --text-sub: #a8a5a0;
+    --text-dim: #55524e;
+    --muted: #888580;
+    --accent: #c9f566;
+    --accent2: #5ce6c8;
+    --accent3: #f5a623;
+    --red: #ff6b6b;
+    --kimi-color: #5ce6c8;
+    --claude-color: #c9a96e;
+    --nav-bg: rgba(12,12,14,0.88);
+    --code-bg: #0a0a0d;
+    --code-text: #c8f7c5;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  [data-theme="light"] {
+    --bg: #f8f7f3;
+    --bg2: #f0ece5;
+    --bg3: #e6e1d8;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.15);
+    --text: #1a1917;
+    --heading: #111110;
+    --text-body: #3d3b37;
+    --text-sub: #6b6762;
+    --text-dim: #9a9590;
+    --muted: #6b6762;
+    --accent: #4d7c0f;
+    --accent2: #0d7a63;
+    --accent3: #9c5c00;
+    --red: #c0392b;
+    --kimi-color: #0d7a63;
+    --claude-color: #7a5020;
+    --nav-bg: rgba(248,247,243,0.92);
+    --code-bg: #1e1e22;
+    --code-text: #c8f7c5;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 clamp(1rem, 5vw, 4rem);
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+  .nav-tag {
+    font-family: var(--mono); font-size: 11px;
+    background: rgba(201,245,102,0.1); color: var(--accent);
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; outline: none; padding: 0;
+  }
+  .theme-toggle:hover { background: var(--bg2); border-color: var(--muted); }
+  .theme-toggle:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .theme-toggle svg {
+    width: 16px; height: 16px;
+    fill: none; stroke: var(--muted);
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    transition: stroke 0.2s;
+    display: block;
+  }
+  .theme-toggle:hover svg { stroke: var(--text); }
+  .icon-moon { fill: var(--muted) !important; stroke: none !important; }
+  .theme-toggle:hover .icon-moon { fill: var(--text) !important; }
+  .icon-moon-path { fill: inherit; }
+  .icon-sun  { display: none; }
+  .icon-moon { display: block; }
+  [data-theme="light"] .icon-moon { display: none; }
+  [data-theme="light"] .icon-sun  { display: block; }
+
+  .hero {
+    max-width: 820px; margin: 0 auto;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 2rem) clamp(2rem, 5vw, 3.5rem);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent2); letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--accent2);
+  }
+  h1 {
+    font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.12; font-weight: 400; color: var(--heading); margin-bottom: 1.5rem;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted); line-height: 1.8;
+    max-width: 620px; margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    padding-top: 1.5rem; border-top: 1px solid var(--border);
+  }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+
+  .system-overview {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border2);
+    border-radius: 12px; overflow: hidden; margin: 2.5rem 0;
+  }
+  .mode-card { background: var(--bg2); padding: 1.75rem 1.75rem 1.5rem; }
+  .mode-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mode-label::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .mode-kimi .mode-label { color: var(--kimi-color); }
+  .mode-kimi .mode-label::before { background: var(--kimi-color); }
+  .mode-claude .mode-label { color: var(--claude-color); }
+  .mode-claude .mode-label::before { background: var(--claude-color); }
+  .mode-title {
+    font-family: var(--serif); font-size: 1.5rem; color: var(--heading);
+    margin-bottom: 0.5rem; line-height: 1.2;
+  }
+  .mode-tool { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
+  .mode-bullets { list-style: none; padding: 0; }
+  .mode-bullets li {
+    font-size: 13px; color: var(--text-sub); padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+  }
+  .mode-bullets li:last-child { border-bottom: none; }
+  .mode-bullets li::before {
+    content: '→'; font-family: var(--mono); font-size: 11px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .mode-kimi .mode-bullets li::before { color: var(--kimi-color); }
+  .mode-claude .mode-bullets li::before { color: var(--claude-color); }
+  @media (max-width: 580px) { .system-overview { grid-template-columns: 1fr; } }
+
+  .ats-strip {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 1.1rem 1.5rem; margin: 0 0 2.5rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .ats-strip-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent3); white-space: nowrap;
+  }
+  .ats-strip-desc { font-size: 13px; color: var(--muted); }
+
+  .content { max-width: 820px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 2rem); }
+
+  .callout {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 1.25rem 1.5rem; margin: 2rem 0;
+  }
+  .callout p { color: var(--text-body); font-size: 0.95rem; line-height: 1.7; margin: 0 0 0.6rem; }
+  .callout p:last-child { margin: 0; }
+  .callout strong { color: var(--accent); }
+  .callout-kimi { border-left-color: var(--kimi-color); }
+  .callout-kimi strong { color: var(--kimi-color); }
+  .callout-claude { border-left-color: var(--claude-color); }
+  .callout-claude strong { color: var(--claude-color); }
+  .callout-neutral { border-left-color: var(--accent2); }
+  .callout-neutral strong { color: var(--accent2); }
+
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin: 2rem 0;
+  }
+  .stat-cell { background: var(--bg2); padding: 1.25rem 1.5rem; }
+  .stat-num {
+    font-family: var(--serif); font-size: 2rem; color: var(--accent);
+    line-height: 1; display: block; margin-bottom: 4px;
+  }
+  .stat-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .stat-source {
+    font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+    margin-top: 4px; display: block;
+  }
+
+  .mode-section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin: 3.5rem 0 1.25rem;
+    padding-top: 2.5rem; border-top: 1px solid var(--border);
+  }
+  .mode-pill {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 20px;
+  }
+  .pill-kimi { background: rgba(92,230,200,0.12); color: var(--kimi-color); }
+  .pill-claude { background: rgba(201,169,110,0.12); color: var(--claude-color); }
+  .pill-ats { background: rgba(245,166,35,0.12); color: var(--accent3); }
+
+  h2 {
+    font-family: var(--serif); font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 400; color: var(--heading); line-height: 1.25; margin: 0;
+  }
+  h2.standalone {
+    margin: 3rem 0 1rem; padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+  h3 {
+    font-family: var(--sans); font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.03em; margin: 2rem 0 0.6rem;
+  }
+  h3.kimi-h3 { color: var(--kimi-color); }
+  h3.claude-h3 { color: var(--claude-color); }
+  h3.neutral-h3 { color: var(--accent2); }
+  p { margin-bottom: 1.1rem; color: var(--text-body); }
+
+  .code-block {
+    background: var(--code-bg); border: 1px solid var(--border2);
+    border-radius: 8px; overflow: hidden; margin: 1.5rem 0;
+  }
+  .code-block-header {
+    background: var(--bg3); border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .code-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; }
+  .label-kimi { color: var(--kimi-color); }
+  .label-claude { color: var(--claude-color); }
+  .label-python { color: var(--accent3); }
+  .code-dots { display: flex; gap: 5px; }
+  .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .code-dots span:nth-child(1) { background: #ff5f57; }
+  .code-dots span:nth-child(2) { background: #febc2e; }
+  .code-dots span:nth-child(3) { background: #28c840; }
+  pre {
+    font-family: var(--mono); font-size: 13px; line-height: 1.7;
+    color: var(--code-text); padding: 1.25rem 1.5rem;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  pre .cm { color: var(--muted); }
+  pre .kw { color: var(--accent2); }
+  pre .str { color: var(--accent3); }
+  pre .hl { color: var(--accent); }
+  pre .ph { color: #c9a96e; font-style: italic; }
+
+  .code-note {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    padding: 8px 16px 12px; line-height: 1.6;
+    border-top: 1px solid var(--border);
+  }
+  .code-note span { color: var(--muted); }
+
+  .tool-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px; margin: 1.5rem 0;
+  }
+  .tool-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem 1.25rem;
+  }
+  .tool-name { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent3); margin-bottom: 4px; }
+  .tool-use { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+  .tool-badge {
+    display: inline-block; margin-bottom: 8px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .badge-free { background: rgba(92,230,200,0.1); color: var(--accent2); }
+  .badge-paid { background: rgba(245,166,35,0.1); color: var(--accent3); }
+
+  .workflow { margin: 1.5rem 0; }
+  .workflow-step {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    padding: 1.25rem 0; border-bottom: 1px solid var(--border);
+  }
+  .workflow-step:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border2);
+    font-family: var(--mono); font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-kimi .step-num { color: var(--kimi-color); border-color: rgba(92,230,200,0.25); }
+  .step-claude .step-num { color: var(--claude-color); border-color: rgba(201,169,110,0.25); }
+  .step-ats .step-num { color: var(--accent3); border-color: rgba(245,166,35,0.25); }
+  .step-body h4 {
+    font-family: var(--sans); font-size: 15px; font-weight: 700;
+    color: var(--heading); margin-bottom: 4px;
+  }
+  .step-body p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.6; }
+
+  .carl-template {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 10px; overflow: hidden; margin: 1.5rem 0;
+  }
+  .carl-header {
+    background: var(--bg3); border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .carl-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--claude-color); letter-spacing: 0.06em;
+  }
+  .carl-body { padding: 1.25rem 1.5rem; }
+  .carl-row {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .carl-row:last-child { border-bottom: none; }
+  .carl-key {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); padding-top: 2px;
+  }
+  .carl-val { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
+  .carl-val em { color: var(--claude-color); font-style: normal; }
+  .carl-val .eg { color: var(--text-dim); font-size: 12px; display: block; margin-top: 3px; }
+
+  .week-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin: 1.5rem 0;
+  }
+  .day-cell { background: var(--bg2); padding: 1rem 1.1rem; }
+  .day-label {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 0.6rem;
+  }
+  .day-kimi .day-label { color: var(--kimi-color); }
+  .day-claude .day-label { color: var(--claude-color); }
+  .day-ats .day-label { color: var(--accent3); }
+  .day-neutral .day-label { color: var(--muted); }
+  .day-task { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
+  .day-time { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  .compare-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted);
+    padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border2);
+  }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-body); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.kimi-cell { color: var(--kimi-color); }
+  td.claude-cell { color: var(--claude-color); }
+  td.ats-cell { color: var(--accent3); }
+  td.muted-cell { color: var(--muted); }
+
+  .pull-quote {
+    border-left: 2px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 1.5rem; margin: 2.5rem 0;
+  }
+  .pull-quote p {
+    font-family: var(--serif); font-size: 1.35rem;
+    color: var(--heading); line-height: 1.5; margin: 0; font-style: italic;
+  }
+
+  .warn-box {
+    background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 8px; padding: 1.1rem 1.5rem; margin: 1.25rem 0;
+  }
+  .warn-box p { color: var(--text-body); font-size: 0.92rem; margin: 0; }
+  .warn-box strong { color: var(--red); }
+
+  .sources {
+    margin: 3rem 0 0; padding: 1.5rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .sources-title {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem;
+  }
+  .sources ol { padding-left: 1.25rem; }
+  .sources li {
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    line-height: 1.8;
+  }
+  .sources a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+
+  footer {
+    max-width: 820px; margin: 2rem auto 0;
+    padding: 2rem clamp(1.5rem, 5vw, 2rem);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-note { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--muted); padding: 3px 10px; border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="nav-logo">// tech-career-blog</span>
+    <span class="nav-tag">April 2026</span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path class="icon-moon-path" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4.5"/>
+      <line x1="12" y1="2"    x2="12" y2="5"/>
+      <line x1="12" y1="19"   x2="12" y2="22"/>
+      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+      <line x1="2"  y1="12" x2="5"  y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+      <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+    </svg>
+  </button>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">Career Intelligence</div>
+  <h1>Your AI Job Search Has<br><em>Two Modes.</em> Most People Use Zero.</h1>
+  <p class="hero-sub">A complete system for senior tech professionals actively interviewing: Kimi K2.5 Agent Swarm for research at scale, Claude Projects for deep interview prep. One campaign. Two tools. Every base covered &mdash; whether you're targeting hyperscalers, AI-infra startups, or enterprise companies.</p>
+  <div class="hero-meta">
+    <span>For SREs, Platform, DevOps, ML Infra &amp; senior engineers</span>
+    <span class="dot"></span>
+    <span>16 min read</span>
+    <span class="dot"></span>
+    <span>April 14, 2026</span>
+  </div>
+</header>
+
+<main class="content">
+
+  <p>Here's the mental model before anything else. Your job search has exactly two modes of work, and they require fundamentally different things from an AI tool:</p>
+
+  <div class="system-overview">
+    <div class="mode-card mode-kimi">
+      <div class="mode-label">Mode 1</div>
+      <div class="mode-title">Research Mode</div>
+      <div class="mode-tool">Tool: Kimi K2.5 Agent Swarm</div>
+      <ul class="mode-bullets">
+        <li>Parallel research across 10+ companies at once</li>
+        <li>Open role discovery &amp; tech stack mapping</li>
+        <li>Batch resume tailoring across multiple JDs</li>
+        <li>Salary intelligence across your target levels</li>
+        <li>High speed, high breadth, one prompt</li>
+      </ul>
+    </div>
+    <div class="mode-card mode-claude">
+      <div class="mode-label">Mode 2</div>
+      <div class="mode-title">Prep Mode</div>
+      <div class="mode-tool">Tool: Claude Projects</div>
+      <ul class="mode-bullets">
+        <li>Deep, company-specific interview prep</li>
+        <li>Impact story mapping to each JD</li>
+        <li>Behavioral + technical Q&amp;A generation</li>
+        <li>Persistent memory of your full profile</li>
+        <li>High depth, conversational, iterative</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ats-strip">
+    <span class="ats-strip-label">+ ATS Layer</span>
+    <span class="ats-strip-desc">Jobscan / Teal / Uppl.ai &mdash; runs between both modes to ensure every submission scores 75%+ before it reaches a human reviewer.</span>
+  </div>
+
+  <p>That's the whole system. The rest of this guide is the exact implementation: what to type, where to type it, and how the two modes hand off to each other across your week.</p>
+
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <span class="stat-num">98%</span>
+      <span class="stat-label">Fortune 500 use ATS</span>
+      <span class="stat-source">Flashfire Blog, 2026</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">75%</span>
+      <span class="stat-label">Resumes auto-rejected</span>
+      <span class="stat-source">AscendurePro / Jobscan, 2026</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">4.5&times;</span>
+      <span class="stat-label">Kimi swarm speedup</span>
+      <span class="stat-source">Moonshot AI tech blog, Jan 2026</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">77%</span>
+      <span class="stat-label">AI users land higher pay</span>
+      <span class="stat-source">Sprout Social Research, 2025</span>
+    </div>
+  </div>
+
+  <h2 class="standalone">Why two tools? Because the jobs are different.</h2>
+
+  <p>Every "use AI for your job search" guide recommends one tool and tries to make it do everything. That's the wrong model. Researching 10 companies in parallel is a fundamentally different task than preparing deeply for a senior-level interview loop. Forcing one tool to do both means doing both badly.</p>
+
+  <p>Kimi K2.5's Agent Swarm mode is purpose-built for parallel breadth. It spins up to 100 specialized sub-agents working simultaneously, each independently searching and synthesizing. It's fast, inexpensive at API rates, and exceptionally good at decomposing large research tasks across many targets. But it has no persistent memory of who you are across sessions, and it's overkill for focused, iterative prep conversations.</p>
+
+  <p>Claude Projects gives you something different: persistent context. Your profile, resume bullets, impact stories, and known gaps live in the Project Instructions once &mdash; and every conversation in that project inherits them automatically. It's the right tool for nuanced, iterative, human-in-the-loop interview preparation. Running it sequentially across 10 companies for initial research, though, is slow and unnecessary.</p>
+
+  <div class="pull-quote">
+    <p>"Use the swarm to find the targets worth preparing for. Use the persistent context to prepare well. Don't conflate them."</p>
+  </div>
+
+  <div class="mode-section-header">
+    <span class="mode-pill pill-kimi">Mode 1 &mdash; Research</span>
+    <h2>Kimi K2.5 Agent Swarm</h2>
+  </div>
+
+  <p>Kimi K2.5 by Moonshot AI is currently the most capable open model for agentic batch work. Its Agent Swarm mode doesn't require you to define any workflow &mdash; the orchestrator decomposes your task autonomously and assigns specialized sub-agents to each piece. You write one prompt. It determines the parallelism.</p>
+
+  <h3 class="kimi-h3">Access</h3>
+  <p>Go to <strong>kimi.com</strong> &rarr; click the mode switcher &rarr; select <strong>Agent Swarm (Beta)</strong>. API access is available at platform.moonshot.ai with an OpenAI-compatible endpoint. Agent Swarm is in beta and available to paid users with free credits for initial exploration.</p>
+
+  <h3 class="kimi-h3">Prompt 1 &mdash; Parallel company intelligence</h3>
+  <p>This is the foundational research prompt. Swap the bracketed company list for your own actual targets &mdash; the structure works the same whether you're researching hyperscalers, AI-infra startups, fintech companies, or enterprise software firms.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-dots"><span></span><span></span><span></span></div>
+      <span class="code-label label-kimi">KIMI AGENT SWARM &mdash; company research</span>
+    </div>
+    <pre><span class="cm"># kimi.com → Agent Swarm mode</span>
+
+I am a <span class="ph">[your role]</span> with <span class="ph">[X]</span> years of experience.
+Core stack: <span class="ph">[your primary languages, platforms, and tools]</span>.
+Target level: <span class="ph">[Senior / Staff / Principal]</span>.
+
+<span class="hl">Task:</span> For each company below, research IN PARALLEL and produce
+a structured block per company covering:
+
+<span class="kw">1.</span> Open <span class="ph">[SRE / Platform / DevOps / your target role]</span> roles
+   — title, level, direct link if available
+<span class="kw">2.</span> Known tech stack — infra, observability, CI/CD tools
+<span class="kw">3.</span> Engineering blog highlights — reliability or infra challenges
+   published in the last 6 months
+<span class="kw">4.</span> Interview format for my target role — sourced from
+   Glassdoor, Blind, or Levels.fyi
+<span class="kw">5.</span> Compensation range at my target level — sourced from Levels.fyi
+<span class="kw">6.</span> My fit score <span class="str">1–10</span> with the single biggest gap to address
+
+<span class="hl">Target companies:</span>
+<span class="ph">[Company 1]</span>, <span class="ph">[Company 2]</span>, <span class="ph">[Company 3]</span>, <span class="ph">[Company 4]</span>, <span class="ph">[Company 5]</span>,
+<span class="ph">[Company 6]</span>, <span class="ph">[Company 7]</span>, <span class="ph">[Company 8]</span>, <span class="ph">[Company 9]</span>, <span class="ph">[Company 10]</span>
+
+<span class="cm"># End with a markdown table: one row per company,
+# sorted by fit score descending. Flag top 3 to prioritize.</span></pre>
+    <div class="code-note"><span>Fill in your role, stack, level, and company list before running. The swarm handles all 10 in parallel &mdash; expect results in ~20 minutes.</span></div>
+  </div>
+
+  <p>What you get back: a prioritized intelligence table that previously took an afternoon to assemble manually. The top 3 flagged companies become your deep-prep targets in Mode 2.</p>
+
+  <h3 class="kimi-h3">Prompt 2 &mdash; Batch JD analysis across multiple openings</h3>
+  <p>Once you have target JDs, run this before tailoring anything. Paste up to 5 at once &mdash; Kimi analyzes each independently in parallel.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-dots"><span></span><span></span><span></span></div>
+      <span class="code-label label-kimi">KIMI AGENT SWARM &mdash; batch JD gap analysis</span>
+    </div>
+    <pre><span class="cm"># Paste up to 5 JDs — Kimi analyzes them in parallel</span>
+
+<span class="str">--- JD 1: [Company / Role] ---</span>
+<span class="ph">[paste full job description]</span>
+
+<span class="str">--- JD 2: [Company / Role] ---</span>
+<span class="ph">[paste full job description]</span>
+
+<span class="cm"># Repeat for JD 3–5</span>
+
+For each JD IN PARALLEL:
+<span class="kw">1.</span> Extract must-have vs nice-to-have skills
+<span class="kw">2.</span> Map to my profile below: [match / partial / gap] per requirement
+<span class="kw">3.</span> Suggest 3–4 resume bullet rewrites using the JD's exact language
+<span class="kw">4.</span> Identify the single biggest gap I need to address in the interview
+<span class="kw">5.</span> Output a tailored 2-sentence resume summary for this specific role
+
+<span class="hl">My base resume:</span>
+<span class="ph">[paste your current resume here]</span></pre>
+    <div class="code-note"><span>The bullets Kimi rewrites here are your raw material for ATS scoring in the next layer. Run them through Jobscan before submitting.</span></div>
+  </div>
+
+  <div class="callout callout-kimi">
+    <p><strong>Kimi tip &mdash; be specific about output format.</strong> The swarm follows your instructions faithfully, including mediocre ones. Specify structure explicitly: "structured block per company," "markdown table at the end," "one section per JD." The more precise your prompt, the more copy-paste-ready your output. Vague instructions produce vague results.</p>
+  </div>
+
+  <div class="mode-section-header">
+    <span class="mode-pill pill-claude">Mode 2 &mdash; Prep</span>
+    <h2>Claude Projects</h2>
+  </div>
+
+  <p>Your top targets are identified. Now you need depth &mdash; not breadth. Claude Projects gives you a persistent context workspace where your complete professional profile exists once and every subsequent chat builds on it automatically. No re-pasting your resume. No re-explaining your background. Claude already knows you.</p>
+
+  <h3 class="claude-h3">Step 1: Build your Project context once</h3>
+  <p>Go to <strong>claude.ai &rarr; Projects &rarr; New Project</strong>. Name it something like "Job Search 2026." In the Project Instructions field, paste your master context using the template below. Adapt every bracketed field to your own background &mdash; this is not a fill-in-one-size-fits-all template, it's a structure.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-dots"><span></span><span></span><span></span></div>
+      <span class="code-label label-claude">CLAUDE PROJECTS &mdash; master context template</span>
+    </div>
+    <pre><span class="cm"># Paste into Project Instructions — active in every conversation</span>
+
+You are my senior job search strategist. Here is my complete profile.
+
+<span class="hl">Role target:</span> <span class="ph">[your target titles — e.g., Senior SRE / Staff Platform Engineer]</span>
+<span class="hl">Experience:</span> <span class="ph">[X years, companies and teams most relevant to your targets]</span>
+<span class="hl">Core stack:</span> <span class="ph">[languages, cloud platform, infra tools, observability stack]</span>
+
+<span class="hl">Impact stories (fill in your own — see template below):</span>
+- <span class="ph">[Story A name]</span>: <span class="ph">[what was broken/slow/risky → what you changed → metric result]</span>
+- <span class="ph">[Story B name]</span>: <span class="ph">[same structure]</span>
+- <span class="ph">[Story C name]</span>: <span class="ph">[same structure]</span>
+- <span class="ph">[Story D name]</span>: <span class="ph">[same structure]</span>
+
+<span class="hl">Tooling gaps to address proactively:</span>
+<span class="ph">[List 3–5 tools that appear in your target JDs but aren't in your stack.
+Format each as: "Target tool (I use equivalent)" — e.g., "Terraform (I use CDK)",
+"Datadog (I use CloudWatch)", "ArgoCD (I use internal CI pipeline)"]</span>
+
+<span class="hl">Location / status:</span> <span class="ph">[city, visa status if relevant, remote or hybrid preference]</span>
+<span class="hl">Level targeting:</span> <span class="ph">[Senior / Staff / Principal / IC or management track]</span>
+
+<span class="cm"># Style: direct, metrics-first language. When mapping behavioral
+# questions, always lead with the specific metric from my stories.
+# When I have a gap, help me frame it honestly and proactively.</span></pre>
+    <div class="code-note"><span>Replace every <span style="color: var(--claude-color);">italic gold field</span> with your own details. The quality of your prep output is directly proportional to how completely you fill this in.</span></div>
+  </div>
+
+  <h3 class="claude-h3">How to build your impact story bank</h3>
+  <p>The most valuable thing in your Project context is a well-structured set of impact stories. This is what Claude draws on when mapping stories to behavioral questions &mdash; and the specificity of the metrics is what separates a memorable answer from a generic one. Use this structure for each story:</p>
+
+  <div class="carl-template">
+    <div class="carl-header">
+      <span class="carl-label">IMPACT STORY TEMPLATE &mdash; fill one per major project or achievement</span>
+    </div>
+    <div class="carl-body">
+      <div class="carl-row">
+        <div class="carl-key">Story name</div>
+        <div class="carl-val">
+          <em>A short label you'll use to reference it &mdash; e.g., "DB migration," "Incident playbook," "Cost reduction Q3"</em>
+        </div>
+      </div>
+      <div class="carl-row">
+        <div class="carl-key">Context</div>
+        <div class="carl-val">
+          <em>What was the situation before you acted? What was broken, slow, risky, or missing?</em>
+          <span class="eg">e.g., Legacy datastore causing p99 spikes under load, no alerting, on-call team flying blind</span>
+        </div>
+      </div>
+      <div class="carl-row">
+        <div class="carl-key">Action</div>
+        <div class="carl-val">
+          <em>What specifically did you do? Own your contribution clearly &mdash; avoid "we."</em>
+          <span class="eg">e.g., Designed and led migration to managed cloud datastore, built observability layer, ran phased cutover</span>
+        </div>
+      </div>
+      <div class="carl-row">
+        <div class="carl-key">Result</div>
+        <div class="carl-val">
+          <em>The measurable outcome. This is the most important field. Quantify everything you can.</em>
+          <span class="eg">e.g., p99 latency &minus;60%, MTTR &minus;89%, on-call pages &minus;35%, became the migration playbook for 3 other teams</span>
+        </div>
+      </div>
+      <div class="carl-row">
+        <div class="carl-key">Learning</div>
+        <div class="carl-val">
+          <em>What would you do differently, or what did this teach you? Shows self-awareness and growth.</em>
+          <span class="eg">e.g., Would have involved the on-call team earlier &mdash; they surfaced edge cases we only discovered mid-migration</span>
+        </div>
+      </div>
+      <div class="carl-row">
+        <div class="carl-key">Best fits</div>
+        <div class="carl-val">
+          <em>Which types of behavioral questions does this story answer best?</em>
+          <span class="eg">e.g., "Tell me about a time you improved reliability," "Describe a complex technical project you led," "How do you handle ambiguous problems?"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-neutral">
+    <p><strong>Story coverage to aim for:</strong> Try to have at least one strong story per category &mdash; a reliability/uptime win, a latency or performance improvement, a process or tooling improvement, a cross-team or stakeholder influence story, and a mistake or failure story. Together they cover ~90% of behavioral questions at any senior level.</p>
+    <p>Your numbers don't need to be dramatic &mdash; a 30% improvement you can speak to confidently beats a 98% improvement you fumble explaining. Specificity and ownership matter more than scale.</p>
+  </div>
+
+  <h3 class="claude-h3">How to identify and document your tooling gaps</h3>
+  <p>Don't guess at your gaps &mdash; extract them from the data. Open 5&ndash;10 JDs from your target roles, list every tool or skill mentioned, and mark each as "have it," "adjacent to it," or "gap." The "adjacent" ones are your strongest gap-handling stories in interviews: you have a direct equivalent and a reason for the difference.</p>
+
+  <div class="callout callout-claude">
+    <p><strong>Framing gaps in interviews:</strong> A gap you've documented and thought through is a strength, not a weakness. "I use CDK rather than Terraform &mdash; the mental model is identical, and I've been building with it in my own side projects to close that gap" is a confident, prepared answer. An undocumented gap discovered live in an interview is a red flag. Claude will help you prepare the framing once you've listed them honestly.</p>
+  </div>
+
+  <h3 class="claude-h3">Step 2: Pre-interview prep (one prompt, 48 hours out)</h3>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-dots"><span></span><span></span><span></span></div>
+      <span class="code-label label-claude">CLAUDE &mdash; pre-interview prep prompt</span>
+    </div>
+    <pre>I have a <span class="ph">[phone screen / HM round / technical loop / final round]</span>
+at <span class="ph">[Company]</span> for <span class="ph">[Role, Level]</span> in <span class="ph">[X days]</span>.
+
+JD: <span class="ph">[paste full job description]</span>
+
+Please:
+<span class="kw">1.</span> Search their engineering blog for recent reliability or infra posts
+   and summarize what problems they're publicly working on
+<span class="kw">2.</span> Map my top 3 impact stories to this JD — for each, name the story,
+   the specific metric to lead with, and why it fits this role
+<span class="kw">3.</span> Generate 5 likely behavioral questions based on this JD and
+   company culture, with my strongest story mapped to each
+<span class="kw">4.</span> Generate 4 technical questions I should prepare for given their stack
+<span class="kw">5.</span> Name my single biggest gap for this role and how I should
+   frame it confidently in the interview
+<span class="kw">6.</span> Draft 3 sharp, specific questions to ask the hiring manager
+   that show I've done my research</pre>
+    <div class="code-note"><span>After the initial brief, keep the conversation going. "Let's practice story #2 &mdash; push back on my answer." "That answer ran long, help me cut it to 90 seconds." Claude holds full context throughout.</span></div>
+  </div>
+
+  <h3 class="claude-h3">Step 3: Iterate &mdash; this is the real value</h3>
+  <p>The pre-interview prompt gives you the brief. The conversation that follows is where the real preparation happens. Because your full profile and the JD are both in context, you can practice naturally: ask Claude to challenge your answers, tighten your stories, or roleplay a skeptical interviewer. This is preparation that scales in quality the more you use it &mdash; and it all stays within one chat thread per company.</p>
+
+  <div class="mode-section-header">
+    <span class="mode-pill pill-ats">Layer 3 &mdash; ATS</span>
+    <h2>The Submission Filter</h2>
+  </div>
+
+  <p>Both modes produce strong content. Neither guarantees that content actually clears an ATS. That's what this layer is for. The rule is simple: nothing goes out below a 75% match score. Run every resume through an ATS scoring tool before submitting, every time.</p>
+
+  <div class="tool-grid">
+    <div class="tool-card">
+      <span class="tool-badge badge-paid">$49/mo</span>
+      <div class="tool-name">Jobscan</div>
+      <p class="tool-use">Gold standard for ATS match scoring. Paste your resume and the JD, get a percentage score. Suggests exact missing keywords to add. Aim for 75%+. Use after Kimi tailors your bullets.</p>
+    </div>
+    <div class="tool-card">
+      <span class="tool-badge badge-free">free tier</span>
+      <div class="tool-name">Teal</div>
+      <p class="tool-use">Best all-in-one if you want fewer tools: ATS resume builder, application pipeline tracker, LinkedIn optimizer. Free tier covers most active searchers. 4.9/5 rating on Chrome Web Store.</p>
+    </div>
+    <div class="tool-card">
+      <span class="tool-badge badge-free">200 free/mo</span>
+      <div class="tool-name">Uppl.ai</div>
+      <p class="tool-use">200 free ATS scans per month plus 3 free tailored resumes. Best cost-to-value for high-volume searchers who want scan capacity before committing to a paid plan.</p>
+    </div>
+  </div>
+
+  <p>The three-step flow: Kimi generates tailored bullets &rarr; Jobscan or Uppl.ai scores them &rarr; if below 75%, take the specific low-scoring keywords back to Claude and ask it to adjust those bullets. Usually one pass is enough to clear the threshold.</p>
+
+  <h2 class="standalone">The Weekly System: How the Two Modes Interlock</h2>
+
+  <p>The two modes don't run at the same time &mdash; they hand off to each other. Kimi identifies and enriches your targets. Claude prepares you to win them. The ATS layer runs in between. Here's what a typical week looks like end to end:</p>
+
+  <div class="week-grid">
+    <div class="day-cell day-kimi">
+      <div class="day-label">Sunday</div>
+      <div class="day-task">Run Kimi swarm across 10&ndash;15 targets. Get company intelligence table. Identify top 3&ndash;5 for the week.</div>
+      <div class="day-time">~45 min</div>
+    </div>
+    <div class="day-cell day-ats">
+      <div class="day-label">Monday</div>
+      <div class="day-task">Run Kimi batch JD analysis. Check ATS scores with Jobscan. Hit 75%+ on each. Submit tailored applications.</div>
+      <div class="day-time">~60 min</div>
+    </div>
+    <div class="day-cell day-claude">
+      <div class="day-label">Tue&ndash;Thu</div>
+      <div class="day-task">Run Claude pre-interview prep for each confirmed interview. Iterate on stories, practice Q&amp;A, tighten gap framing.</div>
+      <div class="day-time">~60 min/day</div>
+    </div>
+    <div class="day-cell day-neutral">
+      <div class="day-label">Fri</div>
+      <div class="day-task">Warm outreach: 2&ndash;3 LinkedIn messages to people at target companies. Follow up on applications gone silent.</div>
+      <div class="day-time">~30 min</div>
+    </div>
+    <div class="day-cell day-neutral">
+      <div class="day-label">Ongoing</div>
+      <div class="day-task">Update your Teal pipeline. Note interview stages, pending decisions, recruiter responses. Prep Sunday's Kimi target list.</div>
+      <div class="day-time">~15 min/day</div>
+    </div>
+  </div>
+
+  <div class="callout callout-neutral">
+    <p><strong>A note on warm outreach:</strong> For senior roles, 70&ndash;80% of positions are filled via referral or warm intro before they're ever publicly posted. The AI stack handles the application pipeline &mdash; but a short, specific LinkedIn message to a current employee ("<em>I noticed you work on the infrastructure team at [Company] &mdash; I'm exploring Staff SRE roles and would love to learn what the on-call culture is like</em>") can move you from the ATS pile to the top of a recruiter's list. Dedicate Friday to this. It's not in any tool's scope.</p>
+  </div>
+
+  <h2 class="standalone">Quick Reference: Which Mode For What</h2>
+
+  <div class="compare-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Use This</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Research 10+ companies at once</td>
+          <td class="kimi-cell">Kimi Swarm</td>
+          <td class="muted-cell">Parallel execution &mdash; 20 min vs half a day</td>
+        </tr>
+        <tr>
+          <td>Batch JD gap analysis (5 JDs)</td>
+          <td class="kimi-cell">Kimi Swarm</td>
+          <td class="muted-cell">Independent analysis per JD, all at once</td>
+        </tr>
+        <tr>
+          <td>Generate tailored resume bullets</td>
+          <td class="kimi-cell">Kimi Swarm</td>
+          <td class="muted-cell">Fastest for batch; use Claude if 1&ndash;2 roles only</td>
+        </tr>
+        <tr>
+          <td>Deep pre-interview brief</td>
+          <td class="claude-cell">Claude Projects</td>
+          <td class="muted-cell">Persistent context; no re-explaining your profile</td>
+        </tr>
+        <tr>
+          <td>Impact story &rarr; JD mapping</td>
+          <td class="claude-cell">Claude Projects</td>
+          <td class="muted-cell">Knows your story bank; matches stories to JD requirements</td>
+        </tr>
+        <tr>
+          <td>Behavioral Q&amp;A practice</td>
+          <td class="claude-cell">Claude Projects</td>
+          <td class="muted-cell">Conversational, iterative, pushback in same thread</td>
+        </tr>
+        <tr>
+          <td>Gap framing and preparation</td>
+          <td class="claude-cell">Claude Projects</td>
+          <td class="muted-cell">Context-aware &mdash; knows your adjacent tools and experience</td>
+        </tr>
+        <tr>
+          <td>ATS score + keyword check</td>
+          <td class="ats-cell">Jobscan / Uppl.ai</td>
+          <td class="muted-cell">Purpose-built for ATS scoring; AI prompts can't replicate this</td>
+        </tr>
+        <tr>
+          <td>Application pipeline tracking</td>
+          <td class="ats-cell">Teal</td>
+          <td class="muted-cell">Dedicated CRM with stage tracking and follow-up reminders</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="standalone">Going Further: API-Based Automation</h2>
+
+  <p>If you write Python regularly, you can hit the Kimi API (OpenAI-compatible) to build a lightweight batch tailoring script &mdash; feed it a folder of JDs and your base resume, get a tailored output per JD automatically. At standard API rates, running this across 20 JDs costs under a dollar.</p>
+
+  <p><strong>If Python isn't your day-to-day:</strong> skip this section entirely &mdash; the manual Kimi workflow covered above gets you 90% of the value. This is purely an efficiency layer for engineers who want to automate the repetitive part.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-dots"><span></span><span></span><span></span></div>
+      <span class="code-label label-python">Python &mdash; Kimi API batch tailoring script</span>
+    </div>
+    <pre><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">import</span> json, concurrent.futures
+
+<span class="cm"># Kimi exposes an OpenAI-compatible API — swap your key and base_url</span>
+client = OpenAI(
+    api_key=<span class="str">"YOUR_MOONSHOT_KEY"</span>,
+    base_url=<span class="str">"https://api.moonshot.ai/v1"</span>,
+)
+
+<span class="kw">def</span> <span class="hl">tailor_for_jd</span>(base_resume: str, jd: str, company: str) -> dict:
+    resp = client.chat.completions.create(
+        model=<span class="str">"kimi-k2-5"</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: f<span class="str">"""
+You are an elite tech resume strategist.
+
+BASE RESUME:
+{base_resume}
+
+TARGET ROLE ({company}):
+{jd}
+
+Return JSON only — no preamble, no markdown fences:
+{{
+  "summary": "2-sentence tailored summary for this role",
+  "top_bullets": ["bullet 1", "bullet 2", "bullet 3", "bullet 4"],
+  "ats_keywords": ["kw1", "kw2", "kw3", "kw4", "kw5",
+                   "kw6", "kw7", "kw8", "kw9", "kw10"],
+  "best_story": "strongest impact story name for this role and why"
+}}"""</span>}],
+        response_format={<span class="str">"type"</span>: <span class="str">"json_object"</span>}
+    )
+    <span class="kw">return</span> json.loads(resp.choices[0].message.content)
+
+<span class="cm"># jd_map = {"Company Name": "full JD text", ...}
+# Run all JDs in parallel — stays within API rate limits at this scale</span>
+<span class="kw">with</span> concurrent.futures.ThreadPoolExecutor(max_workers=5) <span class="kw">as</span> ex:
+    futures = {ex.submit(tailor_for_jd, resume, jd, co): co
+               <span class="kw">for</span> co, jd <span class="kw">in</span> jd_map.items()}
+    results = {futures[f]: f.result()
+               <span class="kw">for</span> f <span class="kw">in</span> concurrent.futures.as_completed(futures)}</pre>
+    <div class="code-note"><span>Feed the ats_keywords output directly into Jobscan to verify your ATS match score before submitting. The API is cloud-agnostic &mdash; the same script works regardless of whether your background is AWS, GCP, or Azure.</span></div>
+  </div>
+
+  <h2 class="standalone">What Not To Do</h2>
+
+  <div class="warn-box">
+    <p><strong>Don't mass auto-apply.</strong> Tools that auto-submit 100+ applications daily produce generic, low-scoring submissions and risk getting your LinkedIn account flagged. Targeted volume &mdash; 10&ndash;15 well-tailored applications per week &mdash; consistently outperforms spray-and-pray. Quality over noise, every time.</p>
+  </div>
+
+  <div class="warn-box">
+    <p><strong>Don't use Kimi for prep or Claude for batch research.</strong> The whole point of this system is that each tool does what it's built for. Running 10-company research sequentially in Claude is slow. Running iterative CARL story refinement in Kimi without persistent context is frustrating. Respect the mode boundaries.</p>
+  </div>
+
+  <div class="warn-box">
+    <p><strong>Don't let AI write your metrics.</strong> AI generates strong structure, keyword alignment, and story framing. The specific numbers in your bullets &mdash; the percentage improvements, the timelines, the scale of impact &mdash; come from you. These are also what interviewers probe on. If you can't defend a metric in conversation, don't put it in your resume. Your numbers don't need to be dramatic. They need to be real and yours.</p>
+  </div>
+
+  <div class="warn-box">
+    <p><strong>Don't skip warm outreach.</strong> No AI tool replaces a referral. A specific, thoughtful message to a current employee at your target company can leapfrog your application past the ATS entirely. Build it into your weekly routine &mdash; Friday is the suggested slot above. Ten minutes of warm outreach often outperforms an hour of additional resume tuning.</p>
+  </div>
+
+  <h2 class="standalone">The Bottom Line</h2>
+
+  <p>The tech job market in 2026 rewards systems, not effort hours. A well-structured AI campaign &mdash; Kimi finding and enriching your targets, Claude preparing you to win each interview, Jobscan making sure every submission clears the filter &mdash; compresses a full week of manual work into six or seven focused hours. And it works regardless of your specific target companies, cloud background, or role type.</p>
+
+  <p>Two modes. Three supporting tools. One system. Set it up once, run it weekly, and spend your actual energy on what only you can do: showing up to interviews with real stories, specific metrics, and genuine preparation.</p>
+
+  <div class="callout">
+    <p><strong>To start this week:</strong> (1) Create a Claude Project and spend 30 minutes filling in your master context &mdash; especially the impact story bank. (2) Run one Kimi Agent Swarm research prompt across your current targets. (3) Run your resume against your top 3 JDs in Jobscan. You'll have more actionable intelligence after those three steps than most people accumulate in a week of searching.</p>
+  </div>
+
+  <div class="sources">
+    <div class="sources-title">Sources</div>
+    <ol>
+      <li>Flashfire Blog &mdash; "AI Job Search Tools 2026" &mdash; flashfirejobs.com</li>
+      <li>AscendurePro / Jobscan &mdash; ATS usage statistics, 2026</li>
+      <li>Moonshot AI &mdash; "Kimi K2.5 Tech Blog: Visual Agentic Intelligence" &mdash; kimi.com/blog/kimi-k2-5, January 2026</li>
+      <li>Sprout Social Research &mdash; AI adoption and career outcomes, 2025</li>
+      <li>Levels.fyi &mdash; Compensation benchmarking data, 2026</li>
+      <li>VentureBeat &mdash; "How Moonshot's Kimi K2.5 helps AI builders spin up agent swarms" &mdash; January 2026</li>
+      <li>LinkedIn / Medium &mdash; Hidden job market statistics (70&ndash;80% filled before posting)</li>
+    </ol>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-note">&copy; 2026 &middot; Built for engineers, by engineers</span>
+  <div class="footer-tags">
+    <span class="tag">SRE</span>
+    <span class="tag">job-search</span>
+    <span class="tag">AI-agents</span>
+    <span class="tag">kimi-k2.5</span>
+    <span class="tag">claude</span>
+    <span class="tag">career</span>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    var html = document.documentElement;
+    var btn  = document.getElementById('themeToggle');
+    var KEY  = 'blog-theme';
+    var saved = localStorage.getItem(KEY);
+    if (saved === 'light') html.setAttribute('data-theme', 'light');
+    btn.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem(KEY, 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem(KEY, 'light');
+      }
+    });
+    if (!saved) {
+      var preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (preferLight) html.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+</body>
+</html>
