@@ -16,7 +16,7 @@ tech-career-blog/
 | Title | Date | Tags |
 |---|---|---|
 | [Your AI Job Search Has Two Modes. Most People Use Zero.](blogs/job-hunt-intel.html) | April 2026 | SRE, job-search, AI-agents, kimi-k2.5, claude, career |
-| [AI Chatbots vs. AI Agents: Stop Conflating Them](blogs/chatbots-vs-agents-blog.html) | April 2026 | AI, AI-agents, platform, software-design |
+| [AI Chatbots vs. AI Agents: Stop Conflating Them](blogs/chatbots-vs-agents-blog.html) | May 2026 | AI, AI-agents, platform, software-design |
 
 ## Adding a New Post
 
